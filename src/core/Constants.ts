@@ -467,7 +467,9 @@ export abstract class Constants {
 			ADMINISTRATOR: "administrator",
 			BADGE_MANAGER: "manager",
 			CONTRIBUTORS: "contributors",
-			BOT_OWNER: "owner"
+			BOT_OWNER: "owner",
+			CARD_HOLDER: "Card_holder",
+			NEWBIE: "newbie"
 		}
 	};
 
@@ -482,6 +484,8 @@ export abstract class Constants {
 			SUPPORT: "support", // has the support role
 			ADMINISTRATOR: "administrator", // has the admin permission in a server where the bot is.
 			CONTRIBUTORS: "contributors",
+			CARD_HOLDER: "Card_holder",
+			NEWBIE: "newbie",
 			ALL: "all"
 		}
 	};

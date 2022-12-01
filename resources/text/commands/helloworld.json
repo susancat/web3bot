@@ -1,0 +1,16 @@
+{
+	"translations": {
+		"fr": {
+			"commandName": "helloworld",
+			"commandDescription": "anything in french",
+			"create": ":Hello World",
+			"edit": "GM {player}m let's say 'Hello World' together!"
+		},
+		"en": {
+			"commandName": "helloworld",
+			"commandDescription": "Say hello to the player and the world",
+			"create": ":Hello World",
+			"edit": "GM {player} let's say 'Hello World' together!"
+		}
+	}
+}

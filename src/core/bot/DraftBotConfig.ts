@@ -8,7 +8,9 @@ export interface DraftBotConfig {
 	DISCORD_CLIENT_TOKEN: string;
 	BOT_OWNER_ID: string;
 	BADGE_MANAGER_ROLE: string;
+	CARD_HOLDER_ROLE: string;
 	CONTRIBUTOR_ROLE: string;
+	NEWBIE_ROLE: string;
 	CONTRIBUTORS_CHANNEL: string;
 	MAIN_SERVER_ID: string;
 	CONSOLE_CHANNEL_ID: string;
@@ -39,6 +41,8 @@ export function loadConfig(): DraftBotConfig {
 	const config = parse(readFileSync(process.cwd() + "/config/config.toml", "utf-8"));
 	return {
 		BADGE_MANAGER_ROLE: config.discord.roles.badge_manager_ids,
+		CARD_HOLDER_ROLE: config.discord.roles.card_holder_id,
+		NEWBIE_ROLE: config.discord.roles.newbie_id,
 		BOT_OWNER_ID: config.discord.users.owner_id,
 		CONSOLE_CHANNEL_ID: config.discord.channels.console_channel_id,
 		CONTRIBUTORS_CHANNEL: config.discord.channels.contributor_channel,

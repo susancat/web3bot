@@ -405,7 +405,7 @@ export const commandInfo: ICommand = {
 		) as SlashCommandBuilder,
 	executeCommand,
 	requirements: {
-		disallowEffects: [EffectsConstants.EMOJI_TEXT.BABY]
+		// disallowEffects: [EffectsConstants.EMOJI_TEXT.BABY]
 	},
 	mainGuildCommand: false
 };

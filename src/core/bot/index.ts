@@ -121,6 +121,16 @@ async function main(): Promise<void> {
 	}
 
 	client.on("ready", () => console.log("Client ready"));
+	//	----- newbie role auto-added and the channel with the below channel ID will response--------	//
+	client.on("guildMemberAdd", guildMember => {
+		const newbieRole = guildMember.guild.roles.cache.find(role => role.name === "newbie");
+
+		guildMember.roles.add(newbieRole);
+		const channel = guildMember.guild.channels.cache.get("1044881088440442880");//	guild.channels.cache.get()
+		(channel as TextChannel).send(`Welcome <@${guildMember.user.id}> to our server! Please go to the 'general' channel to call '/introduce' command to start your adventure!`);
+	});
+	//	-----------------------------------------	//
+
 	client.on("guildCreate", onDiscordGuildCreate);
 	client.on("guildDelete", onDiscordGuildDelete);
 

@@ -58,6 +58,10 @@ export class MessageError {
 	private static hasNotPermission(permission: string, member: GuildMember): boolean {
 		return (permission === Constants.PERMISSION.ROLE.BADGE_MANAGER
 				&& !member.roles.cache.has(botConfig.BADGE_MANAGER_ROLE)
+				|| permission === Constants.PERMISSION.ROLE.CARD_HOLDER
+				&& !member.roles.cache.has(botConfig.CARD_HOLDER_ROLE)
+				|| permission === Constants.PERMISSION.ROLE.NEWBIE
+				&& !member.roles.cache.has(botConfig.NEWBIE_ROLE)
 				|| permission === Constants.PERMISSION.ROLE.ADMINISTRATOR
 				&& !member.permissions.has(PermissionsBitField.Flags.Administrator)
 				|| permission === Constants.PERMISSION.ROLE.CONTRIBUTORS

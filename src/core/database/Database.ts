@@ -65,7 +65,7 @@ export abstract class Database {
 		}
 		await mariadbConnection.end();
 
-		this.sequelize = new Sequelize(`${botConfig.MARIADB_PREFIX}_${this.databaseName}`, botConfig.MARIADB_USER, botConfig.MARIADB_PASSWORD, {
+		this.sequelize = new Sequelize(`${botConfig.MARIADB_PREFIX}_${this.databaseName}`, "root", botConfig.MARIADB_ROOT_PASSWORD, {
 			dialect: "mariadb",
 			host: botConfig.MARIADB_HOST,
 			port: botConfig.MARIADB_PORT,

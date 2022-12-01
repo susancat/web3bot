@@ -184,12 +184,17 @@ export class Player extends Model {
 	public async addScore(parameters: EditValueParameters): Promise<void> {
 		this.score += parameters.amount;
 		if (parameters.amount > 0) {
-			await MissionsController.update(this, parameters.channel, parameters.language, {
-				missionId: "earnPoints",
-				count: parameters.amount
-			});
+			await MissionsController.update(this,
+				parameters.channel,
+				parameters.language,
+				{
+					missionId: "earnPoints",
+					count: parameters.amount
+				});
 		}
-		await this.setScore(this.score, parameters.channel, parameters.language);
+		await this.setScore(this.score,
+			parameters.channel,
+			parameters.language);
 		draftBotInstance.logsDatabase.logScoreChange(this.discordUserId, this.score, parameters.reason).then();
 		this.addWeeklyScore(parameters.amount);
 	}

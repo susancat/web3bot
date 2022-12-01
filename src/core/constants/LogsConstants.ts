@@ -18,6 +18,7 @@ export enum NumberChangeReason {
 	BIG_EVENT,
 	SMALL_EVENT,
 	RECEIVE_COIN,
+	INTRODUCE,
 
 	// Pets
 	PET_SELL,

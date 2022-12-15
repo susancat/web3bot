@@ -12,7 +12,6 @@ import {hoursToMilliseconds, millisecondsToMinutes, minutesDisplay} from "../../
 import MissionSlot, {MissionSlots} from "../../core/database/game/models/MissionSlot";
 import PetEntity, {PetEntities} from "../../core/database/game/models/PetEntity";
 import {playerActiveObjects} from "../../core/database/game/models/PlayerActiveObjects";
-import {EffectsConstants} from "../../core/constants/EffectsConstants";
 import {ProfileConstants} from "../../core/constants/ProfileConstants";
 import {log} from "console";
 import {SlashCommandBuilderGenerator} from "../SlashCommandBuilderGenerator";
@@ -75,6 +74,29 @@ async function getStatisticField(profileModule: TranslationModule, askedPlayer: 
 			cumulativeSpeed: await askedPlayer.getCumulativeSpeed(playerActiveObjects),
 			cumulativeHealth: await askedPlayer.getCumulativeFightPoint(),
 			cumulativeMaxHealth: await askedPlayer.getMaxCumulativeFightPoint()
+		}),
+		inline: false
+	};
+}
+
+/**
+ * get the equipped items field of the profile
+ * @param profileModule
+ * @param askedPlayer
+ * @param playerActiveObjects
+ */
+async function getEqippedField(profileModule: TranslationModule, playerActiveObjects: playerActiveObjects): Promise<EmbedField> {
+	return {
+		name: profileModule.get("equipment.fieldName"),
+		value: profileModule.format("equipment.fieldValue", {
+			weaponIcon: playerActiveObjects.weapon.en !== "Fist" ? playerActiveObjects.weapon?.emote : ":dagger:",
+			shieldIcon: playerActiveObjects.armor.en !== "No shield or armor" ? playerActiveObjects.armor.emote : ":shield:",
+			potionIcon: playerActiveObjects.potion.en !== "No potion" ? playerActiveObjects.potion.emote : ":alembic:",
+			itemIcon: playerActiveObjects.object.en !== "Unused space" ? playerActiveObjects.object.emote : ":teddy_bear:",
+			equippedWeapon: await playerActiveObjects.weapon.en,
+			equippedArmor: await playerActiveObjects.armor.en,
+			equippedPotion: await playerActiveObjects.potion.en,
+			equippedItem: await playerActiveObjects.object.en
 		}),
 		inline: false
 	};
@@ -276,6 +298,8 @@ async function generateFields(
 	if (askedPlayer.level >= Constants.CLASS.REQUIRED_LEVEL) {
 		fields.push(await getStatisticField(profileModule, askedPlayer, playerActiveObjects));
 	}
+	fields.push(
+		await getEqippedField(profileModule, playerActiveObjects));
 	fields.push(
 		getMissionField(profileModule, mc, missionsInfo));
 	fields.push(

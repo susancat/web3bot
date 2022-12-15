@@ -16,6 +16,10 @@
 				"fieldName": "Statistiques :",
 				"fieldValue": ":zap: {cumulativeHealth} / {cumulativeMaxHealth} | :dagger: {cumulativeAttack} | :shield: {cumulativeDefense} | :rocket: {cumulativeSpeed}"
 			},
+			"equipment": {
+				"fieldName": "equipments :",
+				"fieldValue": ":crossed_swords: {equippedWeapon} | :shield: {equippedArmor} | :alembic: {equippedPotion} | :teddy_bear: {equippedItem}"
+			},
 			"mission": {
 				"fieldName": "Missions :",
 				"fieldValue": ":gem: {gems} | :book: {campaign}% "
@@ -96,6 +100,10 @@
 			"statistique": {
 				"fieldName": "Stats:",
 				"fieldValue": ":zap: {cumulativeHealth} / {cumulativeMaxHealth} | :dagger: {cumulativeAttack} | :shield: {cumulativeDefense} | :rocket: {cumulativeSpeed}"
+			},
+			"equipment": {
+				"fieldName": "equipments :",
+				"fieldValue": "{weaponIcon} {equippedWeapon} | {shieldIcon} {equippedArmor} | {potionIcon} {equippedPotion} | {itemIcon} {equippedItem}"
 			},
 			"mission": {
 				"fieldName": "Missions:",

@@ -4,13 +4,13 @@
 			"commandName": "introduce",
 			"commandDescription": "anything in french",
             "optionIntroduction": "self-introduction",
-			"desIntro": "{selfIntroduction}"
+			"desIntro": "{selfIntroduction}\n Welcome {player}! You've got 10 EXP and 10 GOLD. Check it by calling '/profile' command."
 		},
 		"en": {
 			"commandName": "introduce",
 			"commandDescription": "Introduce yourself to friends here to get 10 EXP and 10 GOLD",
             "optionIntroduction": "self-introduction",
-			"desIntro": "{selfIntroduction}"
+			"desIntro": "{selfIntroduction}\n Welcome {player}! You've got 10 EXP and 10 GOLD. Check it by calling '/profile' command."
 		}
 	}
 }

@@ -76,10 +76,23 @@ export class CommandsManager {
 	}: TextInformations, shouldReply = false): Promise<boolean> {
 		const user = player.discordUserId === interaction.user.id ? interaction.user : interaction.options.getUser("user");
 		const userPlayer = {user, player: player};
+
 		if (this.effectRequirementsFailed(commandInfo, userPlayer, {interaction, tr}, shouldReply)) {
 
 			return false;
 		}
+
+		if (commandInfo.requirements.expPermission && player.getExp() > commandInfo.requirements.expPermission) {
+			await replyErrorMessage(
+				interaction,
+				tr.language,
+				Translations.getModule("error", tr.language).format("expTooHigh", {
+					experience: commandInfo.requirements.expPermission
+				})
+			);
+			return false;
+		}
+
 		if (commandInfo.requirements.requiredLevel && player.getLevel() < commandInfo.requirements.requiredLevel) {
 			await replyErrorMessage(
 				interaction,
@@ -607,6 +620,7 @@ export class CommandsManager {
 			);
 			return false;
 		}
+
 		return true;
 	}
 

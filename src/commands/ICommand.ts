@@ -11,6 +11,7 @@ export interface ICommand {
 	executeCommand: (interaction: CommandInteraction, language: string, player: Player, ...addedArgs: unknown[]) => Promise<void>;
 
 	requirements: {
+		expPermission?: number,
 		requiredLevel?: number,
 		disallowEffects?: string[],
 		allowEffects?: string[],

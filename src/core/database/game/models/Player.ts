@@ -433,6 +433,12 @@ export class Player extends Model {
 		return this.level;
 	}
 
+	/*	--------get the exp of the player
+	*/
+	public getExp(): number {
+		return this.experience;
+	}
+
 	/**
 	 * get the number of player that are on the same map as the player
 	 */

@@ -7,7 +7,7 @@ import {Constants} from "../../core/Constants";
 import {SlashCommandBuilderGenerator} from "../SlashCommandBuilderGenerator";
 import {SlashCommandBuilder} from "@discordjs/builders";
 import {NumberChangeReason} from "../../core/constants/LogsConstants";
-import {EffectsConstants} from "../../core/constants/EffectsConstants";
+
 type TextInformation = { interaction: CommandInteraction, language: string, tr?: TranslationModule }
 /**
  * Pings the bot, to check if it is alive and how well is it
@@ -15,7 +15,7 @@ type TextInformation = { interaction: CommandInteraction, language: string, tr?:
  * @param language
  */
 
-async function executeCommand(interaction: CommandInteraction, language: string, player: Player, textInformation: TextInformation): Promise<void> {
+async function executeCommand(interaction: CommandInteraction, language: string, player: Player): Promise<void> {
 	const tr = Translations.getModule("commands.introduce", language);
 	const selfIntro = interaction.options.get(Translations.getModule("commands.introduce", Constants.LANGUAGE.ENGLISH).get("optionIntroduction")).value as string;
 	const introMessage = new DraftBotEmbed()
@@ -25,19 +25,31 @@ async function executeCommand(interaction: CommandInteraction, language: string,
 			)
 		)
 		.setDescription(tr.format("desIntro", {
-			selfIntroduction: selfIntro
+			selfIntroduction: selfIntro,
+			player: player.getPseudo(language)
 		}));
 	await interaction.reply({
 		embeds: [introMessage]
 	});
 
 	await updatePlayerInfos(player, {interaction, language});
+	//	find the player's newbie role and remove it
+
+
+	// const guild = client.guilds.cache.get("1036911988028231691");
+
+	// console.log(guild);
+	// const role = guild.roles.cache.find(role => role.name === "newbie");
+	// const user = guild.members.cache.get(player.discordUserId);
+	// console.log(user);
+	// const newbieRole = guild.roles.cache.find(role => role.name === "newbie");
+	// user.roles.remove(role);
 }
 
 async function updatePlayerInfos(
 	player: Player,
 	textInformation: TextInformation
-	// changes: { moneyChange: number }
+	// changes: { moneyChange:                                   number }
 ): Promise<void> {
 	// await player.addHealth(10, textInformation.interaction.channel, textInformation.language, NumberChangeReason.INTRODUCE);
 	const valuesToEditParameters = {
@@ -65,8 +77,8 @@ export const commandInfo: ICommand = {
 			.setRequired(true)) as SlashCommandBuilder,
 	executeCommand,
 	requirements: {
-		// userPermission: Constants.ROLES.USER.NEWBIE,
-		allowEffects: [EffectsConstants.EMOJI_TEXT.BABY]
+		requiredLevel: 0,
+		expPermission: 15 //	can't be 0
 	},
 	mainGuildCommand: false
 };

@@ -166,8 +166,8 @@ async function getDailyPotionShopItem(translationModule: TranslationModule, inte
 	const shopPotion = await Shop.findOne({
 		attributes: ["shopPotionId"]
 	});
-	const potion = await Potions.getById(shopPotion.shopPotionId);
-
+	// const potion = await Potions.getById(shopPotion.shopPotionId);
+	const potion = await Potions.getById(0);
 	return new ShopItem(
 		potion.getEmote(),
 		`${potion.getSimpleName(translationModule.language)} **| ${potion.getRarityTranslation(translationModule.language)} | ${potion.getNatureTranslation(translationModule.language)}** `,
@@ -342,7 +342,8 @@ export const commandInfo: ICommand = {
 	slashCommandBuilder: SlashCommandBuilderGenerator.generateBaseCommand(currentCommandFrenchTranslations, currentCommandEnglishTranslations),
 	executeCommand,
 	requirements: {
-		disallowEffects: [EffectsConstants.EMOJI_TEXT.BABY, EffectsConstants.EMOJI_TEXT.DEAD, EffectsConstants.EMOJI_TEXT.LOCKED]
+		// disallowEffects: [EffectsConstants.EMOJI_TEXT.BABY, EffectsConstants.EMOJI_TEXT.DEAD, EffectsConstants.EMOJI_TEXT.LOCKED]
+		disallowEffects: [EffectsConstants.EMOJI_TEXT.DEAD, EffectsConstants.EMOJI_TEXT.LOCKED]
 	},
 	mainGuildCommand: false
 };

@@ -31,7 +31,7 @@ export const commandInfo: ICommand = {
 	slashCommandBuilder: SlashCommandBuilderGenerator.generateBaseCommand(currentCommandFrenchTranslations, currentCommandEnglishTranslations),
 	executeCommand,
 	requirements: {
-		userPermission: Constants.ROLES.USER.CARD_HOLDER
+		expPermission: 5
 	},
 	mainGuildCommand: false
 };

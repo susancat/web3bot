@@ -1,5 +1,5 @@
 import {DraftBot} from "./DraftBot";
-import {Client, Guild, Partials, TextChannel} from "discord.js";
+import {Client, Guild, Partials, TextChannel, CommandInteraction} from "discord.js";
 import {loadConfig} from "./DraftBotConfig";
 import {format} from "../utils/StringFormatter";
 import {Servers} from "../database/game/models/Server";
@@ -10,6 +10,11 @@ import {BotUtils} from "../utils/BotUtils";
 import {DBL} from "../DBL";
 import {BotConstants} from "../constants/BotConstants";
 import {Intents} from "../intents";
+
+import Player, {Players} from "../../core/database/game/models/Player";
+import {Weapons} from "../database/game/models/Weapon";
+import {NumberChangeReason} from "../../core/constants/LogsConstants";
+import {giveItemToPlayer} from "../../core/utils/ItemUtils";
 
 export let draftBotInstance: DraftBot = null;
 export let draftBotClient: Client = null;
@@ -120,16 +125,46 @@ async function main(): Promise<void> {
 		console.log(msg);
 	}
 
+	async function updatePlayerInfos(
+		player: Player
+	): Promise<void> {
+		const generalChannel = await client.channels.fetch("1036911988607037493");
+		const valuesToEditParameters = {
+			player: player,
+			channel: generalChannel as TextChannel,
+			language: "en",
+			reason: NumberChangeReason.HERO_VERIFIED
+		};
+		await player.addExperience(Object.assign(valuesToEditParameters, {amount: 10}));
+	}
+
 	client.on("ready", () => console.log("Client ready"));
 	//	----- newbie role auto-added and the channel with the below channel ID will response--------	//
 	client.on("guildMemberAdd", guildMember => {
-		const newbieRole = guildMember.guild.roles.cache.find(role => role.name === "newbie");
+		// const newbieRole = guildMember.guild.roles.cache.find(role => role.name === "newbie");
 
-		guildMember.roles.add(newbieRole);
-		const channel = guildMember.guild.channels.cache.get("1044881088440442880");//	guild.channels.cache.get()
-		(channel as TextChannel).send(`Welcome <@${guildMember.user.id}> to our server! Please go to the 'general' channel to call '/introduce' command to start your adventure!`);
+		// guildMember.roles.add(newbieRole);
+		// const channel = guildMember.guild.channels.cache.get("1044881088440442880");//	guild.channels.cache.get()
+		// (channel as TextChannel).send(`Welcome <@${guildMember.user.id}> to our server! Please go to the '#general' channel to call '/introduce' command to start your adventure!`);
 	});
-	//	-----------------------------------------	//
+
+	/** new "Hero" holder check
+	 * EXP and sword rewarded and inform the member 
+	 */
+	client.on("guildMemberUpdate", async (before, after) => {
+		//	guildRoleManager doesn't have 'has' method, so use cache here
+		const hero = "1040522325751255122";
+		const generalChannel = "1036911988607037493";
+		const sword = await Weapons.getById(37);
+		// const newHeroId = before.guild.members
+		const player = await Players.getByDiscordUserId(before.id);
+		const channel = after.guild.channels.cache.get(generalChannel);
+		if (!before.roles.cache.has(hero) && after.roles.cache.has(hero)) {
+			await updatePlayerInfos(player);
+			player.giveItem(sword);
+			(channel as TextChannel).send(`Congratulations <@${after.user.id}> to be a Hero! You've got 10 EXP and a 'Beginner's Sword'. Check it by calling '/profile' command.`);
+		}
+	});
 
 	client.on("guildCreate", onDiscordGuildCreate);
 	client.on("guildDelete", onDiscordGuildDelete);
